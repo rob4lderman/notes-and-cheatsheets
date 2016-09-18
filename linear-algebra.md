@@ -39,6 +39,10 @@
 * conceptually useful to think of vectors as an arrow
     * on a coordinate system
     * rooted at the origin
+    * the coordinates of the vector represent the SCALING of a set of basis vectors
+        * e.g. every vector in the standard basis...
+        * is a scaling of the standard basis vectors
+            * standard basis vectors: `^i` and `^j`
 
 ## <a name="Adding-and-Multiplying-Vectors"></a>Adding and Multiplying Vectors
 
@@ -121,17 +125,18 @@
     
 Example:
 
-    v = [ -1 ] 
+    v = [ -1 ]                      <--- we implicitly assume v is in the standard basis
         [ 2  ]
 
-      = -1^i + 2^j
+      = -1^i + 2^j                  <--- explicitly defining v as coordinates in the standard basis
         
-    after transformation:
+    standard basis vectors after transformation:
 
     ^i = [  1 ]    ^j = [ 3 ]
          [ -2 ]         [ 0 ]
 
-    v = -1^i + 2^j
+    v = -1^i + 2^j                  <--- notice that each coordinate of v 
+                                         SCALES UP the corresponding unit vector
 
       = -1 * [  1 ] + 2 * [ 3 ]     <--- this is matrix multiplication
              [ -2 ]       [ 0 ]
@@ -139,19 +144,21 @@ Example:
       = [ 5 ]
         [ 2 ]
 
-
+        [ |   | ]
       = [ ^i ^j ] * v               <--- matrix multiplication form
-                                         matrix always on the left
-      = [ 1   3 ] * [ -1 ]               like the "function" operator
+        [ |   | ]                        matrix always on the left
+                                         like the "function" operator
+                                         
+      = [ 1   3 ] * [ -1 ]               
         [ -2  0 ]   [  2 ]
 
       = [ 5 ]
         [ 2 ]
 
 * Therefore a matrix describes a linear transformation function
-* The cols of the matrix are where the basis vectors end up after the transformation
+* The cols of the matrix are where the standard basis vectors end up after the transformation
 * this allows you to visualize a transformation
-    * by visualizing how the basis vectors are transformed
+    * by visualizing how the standard basis vectors are transformed
 * if the transformed basis vectors are linearly dependent..
     * then the transformation "squishes" the span 
     * into a lower dimension 
@@ -194,10 +201,11 @@ Imagine the matrix A is a set of column vectors:
 
 Imagine the vector w as a set of coordinates:
 
-    w = [ w.x ]
-        [ w.y ]
+    w = [ w.x ]                 <-- we implicitly assume w.x and w.y 
+        [ w.y ]                     are coordinates in the standard basis
 
-    w = w.x * ^i + w.y * ^j     <-- equivalent representation
+    w = w.x * ^i + w.y * ^j     <-- equivalent representation: explictly representing
+                                    w as coordinates in the standard basis
 
       = w.x * [ 1 ] + w.y * [ 0 ]
               [ 0 ]         [ 1 ]
@@ -208,7 +216,7 @@ Imagine the vector w as a set of coordinates:
       = [ w.x ]
         [ w.y ]
 
-Matrix-vector multiplication: Multiplies each component of w (w.x, w.y), 
+Matrix-vector multiplication: Multiplies each coordinate of w (w.x, w.y), 
 by the column vectors of A (v1, v2).
 
     A * w = b
@@ -216,23 +224,30 @@ by the column vectors of A (v1, v2).
     [ v1.x  v2.x ] * [ w.x ]  =  [ v1.x*w.x + v2.x*w.y ]  
     [ v1.y  v2.y ]   [ w.y ]     [ v1.y*w.x + v2.y*w.y ]  
 
-                              Note: all elements of v1 are multiplied by w.x,
-                                    all elements of v2 are multiplied by w.y
+                Note: all elements of v1 (1st basis vector) are multiplied by w.x (1st coordinate).
+                      all elements of v2 (2nd basis vector) are multiplied by w.y (2nd coordinate).
 
-                              =  w.x * [ v1.x ] + w.y * [ v2.x ]
-                                       [ v1.y ]         [ v2.y ]
+                              =  w.x * [ v1.x ] + w.y * [ v2.x ]        <--- explicitly representing w as coordinates
+                                       [ v1.y ]         [ v2.y ]             in the basis defined by v1 and v2
 
+                Note: w, as a set of coordinates, is transformed by the
+                matrix A, such that each coordinate of w is scalar
+                that "scales up" the corresponding column/basis vector in A.
 
-                              w, as a set of coordinates, is transformed by the
-                              matrix A, such that each coordinate of w is scalar
-                              multiplied by the corresponding column vector in A.
+                Note: I'm using "basis" liberally.  By precise definition,
+                a "basis" is a set of linearly independent vectors that span
+                the vector space.  However the column vectors of a transformation 
+                matrix need not necessarily be linearly independent.  If they're
+                NOT, then the set of transformed vectors will have fewer dimensions
+                than the number of column vectors.
 
-                              I.e. the coordinates of w "scale up" the column
-                              vectors of A
+                A * w = b
+                b is a linear combination of the column/basis vectors of A.
+                The coefficients of the linear combination are w.
 
-                              A * w = b
-                              b is a linear combination of the column vectors of A.
-                              The coefficients of the linear combination are w.
+                b is a vector in the subspace spanned by the column/basis
+                vectors of A. Its coordinates w/r/t the basis are w.
+                
 
 
 Another way to look at it: Imagine A as a set of row vectors:
@@ -246,13 +261,20 @@ Another way to look at it: Imagine A as a set of row vectors:
     [ r1.x  r1.y ] * [ w.x ]  =  [ r1.x*w.x + r1.y*w.y ]
     [ r2.x  r2.y ]   [ w.y ]     [ r2.x*w.x + r2.y*w.y ]
 
-                              =  [ r1 . w ]     <-- dot product: projection of w onto r1
-                                 [ r2 . w ]     <--              projection of w onto r2
+                              =  [ r1 . w ]     <-- dot product: mapping of w onto r1
+                                 [ r2 . w ]     <--              mapping of w onto r2
 
                               A * w = b
 
                               b consists of the dot product of each row vector in A 
                               with the vector w.
+
+                              i.e. w as a set of coordinates is "mapped" into the
+                              subspace spanned by the row vectors (which are 1d lines).
+                              The row vectors are the n'th dimension of the basis vectors.
+                              So if we "map" all coordinates of w
+                              onto the n'th dimension of all the basis vectors
+                              we get the n'th coordinate of the transformed vector.
                                 
 
 
@@ -413,7 +435,9 @@ Another way to look at it: Imagine A as a set of row vectors:
 
     a Ex V   AND  a Ex R^n
     
-    a = c_1 * v_1 + c_2 * v_2 + ... + c_k * v_k      <-- a is linear combination of basis vectors
+    a = c_1 * v_1 + c_2 * v_2 + ... + c_k * v_k      <-- a is linear combination of basis vectors in B
+                                                         i.e. each basis vector in B is "scaled up" by
+                                                         the coordinates of a w/r/t the basis B
 
     c_1, c_2, ... c_k       <--- coordinates of a w/r/t basis B
 
@@ -426,11 +450,17 @@ In matrix notation:
 
         [  |    |   ...  |  ] 
     C = [ v_1  v_2  ... v_k ]       <--- "change of basis" matrix
-        [  |    |   ...  |  ] 
-        [  |    |   ...  |  ]     
+        [  |    |   ...  |  ]            is the transformation matrix that "maps"/transforms
+        [  |    |   ...  |  ]            vectors represented as coordinates w/r/t the basis
+                                         onto vectors represented as coordinates 
+                                         in the standard basis
 
 
-       a  =  C * [a]_B          
+       a  =  C * [a]_B              <--- the basis vectors are each scaled up by the 
+                                         coordinates in [a]_B.  This yields the vector
+                                         a (same vector, btw) as coordinates in the 
+                                         standard basis.
+
 
             [  |    |   ...  |  ]   [ c_1 ]
           = [ v_1  v_2  ... v_k ] * [ c_2 ]
@@ -447,15 +477,24 @@ Assuming C is invertible:
 
     C^-1 * a = C^-1 * C * [a]_B
 
-    C^-1 * a = [a]_B
+    C^-1 * a = [a]_B                <--- the inverse of the "change of basis" matrix
+                                         reverses the transformation.  It "maps"/transforms
+                                         vectors represented as coordinates 
+                                         in the standard basis
+                                         onto vectors represented as coordinates
+                                         in the "change of basis" matrix
 
 
-Transformations w/r/t a basis:
+
+## Transformations w/r/t a basis:
 
     T: R^n -> R^n
 
     T(x) = A * x            <-- A is transformation matrix (for T)
                                 WITH RESPECT TO the STANDARD BASIS!
+                                A "maps"/transforms the coordinates of vector x
+                                onto a vector represented as coordinates in 
+                                the standard basis.
 
 
     B = { v_1, v_2, ... v_n }       <-- basis for R_n
@@ -463,12 +502,20 @@ Transformations w/r/t a basis:
                                         i.e. all vectors in R_n can be expressed as 
                                              linear combination of v's
 
-    x       <--- vector coordinates w/r/t standard basis
+    x       <--- vector represented as coordinates in the standard basis (implicit)
 
-    [x]_B   <-- vector coordinates w/r/t basis B
+    [x]_B   <-- (same) vector represented as coordinates in basis B
 
     [T(x)]_B = D * [x]_B            <--- D is transformation matrix (for T)
                                          with respect to basis B
+
+                                         D transforms vectors represented as coordinates
+                                         in basis B onto other vectors represented as 
+                                         coordinates in basis B. 
+
+                                         Note that D transforms the vectors exactly
+                                         the same way that A does; only the basis and
+                                         corresponding vector coordinates are different.
 
 
 Solve for D:
@@ -488,15 +535,21 @@ Solve for D:
 
     C^-1 * A * C = D
 
-    A = C * D * C^-1
+    A = C * D * C^-1                <--- The transformation matrix A (in standard basis)
+                                         is equivalent to 
+                                         1. transforming the standard basis vector coordiantes into basis B coordinates
+    A * x = C * D * C^-1 * x             2. transforming the basis B coordinates via D
+                                         3. transforming the result from basis B coordinates back into standard basis coordinates
+
 
                  A
         x ---------------> T(x)
         |                   |
-        | C^-1              | C^-1
+        | C^-1              | C
         |                   |
        [x]_B -----------> [T(x)]_B
                  D
+
 
 
 
@@ -533,16 +586,17 @@ Orthonormal bases make for GOOD COORDINATE SYSTEMS:
 
     B = { v_1, v_2, ... v_k }       <-- orthonormal basis for V
 
-    x Ex V
+    x Ex V                              
 
-    x = c_1 * v_1 + c_2 * v_2 + ... + c_k * v_k
+    x = c_1 * v_1 + c_2 * v_2 + ... + c_k * v_k     <--- x represented as linear combo of basis vectors
+                                                         c_1,c_2,... are x's coordinates in the basis B
 
     v_i . x = c_1 * v_i . v_1 + c_2 * v_i . v_2 + ... + c_i * v_i . v_i + ... + c_k * v_k
 
             Note: since orthonormal, v_i . v_j = 0, for i != j
-                  and v_i . v_i = 1
+                                 and v_i . v_i = 1
 
-    v_i . x = c_i           <--- projection of vector x onto basis vector v_i is c_i
+    v_i . x = c_i           <--- "mapping" of vector x onto basis vector v_i is c_i
                                  c_i is x's coordinate for basis vector v_i
                                  makes it easy to find coordinates of x w/r/t the basis B
                                  (easier than computing the inverse of the change of basis matrix)
@@ -555,43 +609,66 @@ Orthonormal bases make for GOOD COORDINATE SYSTEMS:
 
 ## <a name="Projecting-vectors-onto-subspaces-with-orthonormal-bases"></a>Projecting vectors onto subspaces with orthonormal bases
 
+* **Projection**: orthogonally projecting/mapping a vector onto a subspace
+* essentially this involves finding...
+    * (a) the coordinates/components of the vector that are parallel to the subspace
+    * and (b) the coordinates/components of the vector that are perpendicular to the subspace
+* the strategy is to re-represent the vector...
+    * as the combination of the parallel components
+    * and the perpendicular components
+* the parallel components are the projection
+
+.
+
     V is a subspace of R^n
 
     B = { v_1, v_2, ... v_k }       <-- k-dimensional orthonormal basis for V
 
     x Ex R^n  
 
-        ==> x = v + w       <--- v Ex V,  
+        ==> x = v + w       <--- v Ex V (projection of x onto V)
                                  w Ex orthogonal complement of V
 
-    v is the projection of x onto V     <-- not easy to find
+    The projection of x onto V is not easy to find (remember, we're talking PROJECTIONS here,
+                                                     not transformations.  Transforming x according
+                                                     to V is trivially easy)
 
                 [  |    |    |    |  ]
             A = [ v_1  v_2  ...  v_k ]
                 [  |    |    |    |  ]
 
-            Proj_V(x) = A * (A^T * A)^-1 * A^T * x        <--- not easy
+            Proj_V(x) = A * (A^T * A)^-1 * A^T * x        <--- not easy  TODO: derive this
 
 
     x =  v  +  w
 
       = c_1 * v_1 + c_2 * v_2 + ... + c_k * v_k  +  w
 
+                    Note: v_i . v = c_1 * v_i . v_1 + c_2 * v_i . v_2 + ... + c_i * v_i . v_i + ... + c_k * v_k
 
-    v_i . x =  c_i  +  v_i . w
+                                  = c_i                     <--- because V is an orthonormal basis
+
+    v_i . x =  v_i . v  +  v_i . w                          
+
+            =  c_i  + v_i . w               
+                                                            
+                    Note: v_i . w = 0                       <--- because w is orthogonal to V
 
             =  c_i
 
 
-    Proj_V(x) = (v_1 . x) * v_1 + (v_2 . x) * v_2 + ... + (v_k . x) * v_k   <-- projection of x onto V is equal to
-                                                                                projection of x onto each basis vector of V (scalar)
-                                                                                multiplied by the basis vector
-              =    c_1 * v_1    +     c_2 * v_2   + ... +    c_k * v_k
+    v = Proj_V(x) = (v_1 . x) * v_1 + (v_2 . x) * v_2 + ... + (v_k . x) * v_k   <-- projection of x onto V is equal to
+                                                                                    projection of x onto each basis vector of V (scalar)
+                                                                                    multiplied by the basis vector
 
+                            Note: v_i . x = c_i 
+                                                                                            
+                  =    c_1 * v_1    +     c_2 * v_2   + ... +    c_k * v_k
               
-              = A * (A^T * A)^-1 * A^T * x        <--- not easy
 
-However, if col vectors (basis vectors) of A are orthonormal, then:
+In other words, if col vectors (basis vectors) of A are orthonormal, then:
+
+    Proj_V(x) = A * (A^T * A)^-1 * A^T * x              <--- not easy  
 
               [ --- v_1 --- ]   [  |    |    |    |  ]
     A^T * A = [ --- v_2 --- ] * [ v_1  v_2  ...  v_k ]
@@ -610,7 +687,16 @@ However, if col vectors (basis vectors) of A are orthonormal, then:
 
               = A * (I)^-1 * A^T * x
 
-              = A * A^T * x                         <-- much easier
+              = A * A^T * x                         <-- much easier :)
+
+                    Note: A^T * x = c               <-- A^T * x computes the dot product of each
+                                                        vector v_1, v_2, ... with x, which are
+                                                        the scalar values c_1, c_2, ...
+
+                    Note: A * c                     <-- "scales up" each vector v_1, v_2, ... in A 
+                                                        by the corresponding scalar value c_1, c_2, ...
+
+              =  c_1 * v_1  +  c_2 * v_2  + ... +  c_k * v_k
 
 
 Note: if col vectors are orthonormal, then:
@@ -1017,6 +1103,38 @@ We know we can convert from standard basis to B:
     p < 0 if angle between u and v is greater than 90 degrees.
 
 ![vector.inner.product.png](vector.inner.product.png)
+
+
+### Dot Product as a Linear Transformation
+
+    u = [ u.x ]
+        [ u.y ]
+
+    v = [ v.x ]
+        [ v.y ]
+
+    u . v  = u' * v                         <--- linear transformation
+
+           = [ u.x  u.y ] * [ v.x ]
+                            [ v.y ]
+
+                Note: the "basis vectors" for this transformation
+                are 1-dimensional.
+
+                Each coordinate in v "scales up" cooresponding basis vector.
+
+                So the dot product essentially "maps" v (as in, maps its
+                coordinates) into the 1D subspace whose "basis" is described
+                by the 1D "vectors" of u.  
+
+                Note that the 1D "basis vectors" of u are NOT linearly independent
+                (they're just scalars, so one can always be described as some
+                 scalar multiple of the other).  Which tells us that the subspace
+                for this transformation is 1D, despite having two "basis" vectors.
+                
+            
+                 deep man....
+
 
 
 ## <a name="Vector-Cross-Product"></a>Vector Cross Product
