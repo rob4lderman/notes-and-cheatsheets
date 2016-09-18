@@ -2,7 +2,7 @@
 # Linear Algebra Review
 
 
-* [What exactly is a vector?](#What-exactly-is-a-vector?)
+* [What exactly is a vector?](#What-exactly-is-a-vector-)
 * [Adding and Multiplying Vectors](#Adding-and-Multiplying-Vectors)
 * [Spans and Bases](#Spans-and-Bases)
 * [Linear Transformations and Matrices](#Linear-Transformations-and-Matrices)
@@ -11,6 +11,7 @@
 * [Determinant](#Determinant)
 * [Inverse Matrices, Rank](#Inverse-Matrices,-Rank)
 * [ Change of Basis](#-Change-of-Basis)
+* [Transformations w/r/t a basis:](#Transformations-w-r-t-a-basis-)
 * [Orthogonal Complement](#Orthogonal-Complement)
 * [Orthonormal Bases](#Orthonormal-Bases)
 * [Projecting vectors onto subspaces with orthonormal bases](#Projecting-vectors-onto-subspaces-with-orthonormal-bases)
@@ -18,17 +19,17 @@
 * [Gram-Schmidt Process - Finding Orthonormal Basis for any given Basis](#Gram-Schmidt-Process---Finding-Orthonormal-Basis-for-any-given-Basis)
 * [Eigenvalues and Eigenspaces and Eigenvectors](#Eigenvalues-and-Eigenspaces-and-Eigenvectors)
 * [Eigenvalues and Eigenvectors make for good coordinate systems](#Eigenvalues-and-Eigenvectors-make-for-good-coordinate-systems)
-* [Vector Inner Product (aka Dot Product):](#Vector-Inner-Product--aka-Dot-Product-:)
+* [Vector Inner Product (aka Dot Product):](#Vector-Inner-Product--aka-Dot-Product--)
 * [Vector Cross Product](#Vector-Cross-Product)
 * [Identity Matrix](#Identity-Matrix)
 * [Transpose Matrix](#Transpose-Matrix)
 * [Solving systems of Linear Equations](#Solving-systems-of-Linear-Equations)
 * [Summations using matrices](#Summations-using-matrices)
-* [Example: Portfolio Matrix Algebra](#Example:-Portfolio-Matrix-Algebra)
+* [Example: Portfolio Matrix Algebra](#Example--Portfolio-Matrix-Algebra)
 
 
 
-## <a name="What-exactly-is-a-vector?"></a>What exactly is a vector?
+## <a name="What-exactly-is-a-vector-"></a>What exactly is a vector?
 
 * basic component of linear algebra
 * physics: a vector is a direction and length/magnitude
@@ -486,7 +487,7 @@ Assuming C is invertible:
 
 
 
-## Transformations w/r/t a basis:
+## <a name="Transformations-w-r-t-a-basis-"></a>Transformations w/r/t a basis:
 
     T: R^n -> R^n
 
@@ -1030,7 +1031,7 @@ We know we can convert from standard basis to B:
 
 
 
-## <a name="Vector-Inner-Product--aka-Dot-Product-:"></a>Vector Inner Product (aka Dot Product):
+## <a name="Vector-Inner-Product--aka-Dot-Product--"></a>Vector Inner Product (aka Dot Product):
 
 * Dot product
     * given two vectors
@@ -1389,7 +1390,7 @@ Suppose you have 3 competing hypothesis functions.
 
 
 
-## <a name="Example:-Portfolio-Matrix-Algebra"></a>Example: Portfolio Matrix Algebra
+## <a name="Example--Portfolio-Matrix-Algebra"></a>Example: Portfolio Matrix Algebra
 
 Derivation of Matrix Algebra portfolio equations:  
 [http://faculty.washington.edu/ezivot/econ424/portfolioTheoryMatrix.pdf](http://faculty.washington.edu/ezivot/econ424/portfolioTheoryMatrix.pdf)
@@ -1456,6 +1457,7 @@ Using Matrix Algebra:
                       + w1*w3*sigma_13
                       + w2*w3*sigma_23
                       + w2*w3*sigma_23
+
 
 
 
