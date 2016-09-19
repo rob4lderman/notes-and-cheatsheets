@@ -1460,7 +1460,139 @@ Using Matrix Algebra:
 
 
 
+## PCA: Principal Component Analysis
 
+* PCA is a procedure...
+* that uses an **orthogonal transformation**
+    * orthogonal transformation: 
+        * preserves the lengths and angles between all vectors
+        * maps orthonormal bases to orthonormal bases
+        * characterized as "stiff rotations", reflections, or combination of rotation and reflection
+        * the matrix representation of an orthogonal transformation
+            * is an orthogonal matrix
+            * rows and columns are mutually orthogonal vectors with unit norm
+* to convert a set of possibly correlated variables (cols)
+* into a set of linearly uncorrelated variables (cols)
+    * called **principal components**
+* number of principal components `<=` number of original variables
+* first principal component has the largest possible variance
+    * "explains" the most variance in the original dataset
+* each succeeding principal component has the highest possible remaining variance
+    * under the constraint it is **orthogonal** to previous principal components
+* the resulting vectors make up an **orthogonal basis**
+* PCA is SENSITIVE to relative scaling of original variables
+* AKA
+    * KLT (signal processing)
+    * Hotelling transform (multivariate quality control)
+    * POD: proper orthogonal decomposition (mechanical engineering)
+    * SVD: singular value decomposition of matrix X
+    * EVD: eigenvalue decomposition of `X^T * X` (linear algebra)
+    * factor analysis
+    * spectral decomposition (noise and vibration)
+    * empirical model analysis (structural dynamics)
+    * etc...
+* Intuition:
+    * PCA is like fitting an n-dimensional ellipsoid to the data
+    * where each axis of the elipsoid is a principal component
+    * if an axis is small, then the variance along this axis is small
+        * therefore the axis can be eliminated
+        * without much loss of information from the original dataset
+* PCA is mathematically defined 
+    * as an orthogonal linear transformation
+    * that transforms the data into a new coordinate system
+    * such that the greatest variance 
+        * by some projection of the data
+    * lies on the first coordinate / axis
+        * aka the first principal component
+    * and so on for each successive coordinate / axis
+    * the transformation is defined 
+        * by a set of p-dimensional vectors of weights, `w_k`
+            * all unit vectors
+        * that map each row vector `x(i)` of X
+        * to a new vector of principal component scores, t
+            * such that `t_k(i) = x(i) . w_k`
+            * each value of t successively inherits the largest possible variance from x
+
+            
+
+PCA:
+
+    X: n x p data matrix
+       standardized (mean of each column is 0)
+
+    W: p x p matrix whose colums are the weighting or loading vectors
+       eigenvectors of X^T * X
+       in order corresponding to the largest eigenvalues of X^T * X
+
+    T = X * W           
+        n x p transformed matrix
+        maps row vector x(i) from original coordinate/variable space of p variables
+        to a new space of p variables which are uncorrelated over the dataset (T)
+
+        t_k(i) = x(i) . w_k         <-- kth column of ith row in T is equal to 
+                                        the dot product of ith row of X with kth column of W
+
+Dimensionality Reduction:
+
+    T' = X * W'
+        W': p x q matrix, where q < p (fewer variables)
+
+        T': n x q matrix, same number of rows as X (n), but fewer cols (q < p)
+
+      
+
+      
+
+
+## SVD: Singular Value Decomposition
+
+    M: m x n matrix
+
+    U * Sigma * V^T                 <--- decomposition of M
+                                         Intuitively: composition of transformations:
+                                            a rotation or reflection
+                                            a scaling (Sigma)
+                                            and another rotation or reflection
+
+    U: m x m unitary matrix
+       cols known as LEFT SINGULAR VECTORS of M
+       orthonormal basis
+       orthonormal eigenvectors of M * M^T
+        
+                Note: unitary: U^T = U^-1
+                               U^T * U = I
+                               U * U^T = I
+
+                               orthonormal matrices are unitary
+
+    Sigma: m x n rectangular diagonal matrix
+           non-negative real numbers on the diagonal
+           diagonal entries known as SINGULAR VALUES of M
+           square roots of the non-zero eigenvalues of both M * M^T and M^T * M
+
+                Note: diagonal matrix: all non-diagonal elements are 0
+
+    V: n x n unitary matrix
+       cols known as RIGHT-SINGULAR VECTORS of M
+       orthonormal basis
+       orthonormal eigenvectors of M^T * M
+
+
+                 M                      
+        x ---------------> T(x)
+        |                   ^
+        | V^T               | U         
+        |                   |
+        V                   |
+       [x]_B -----------> [T(x)]_B      <--- finding D might be easier
+                Sigma 
+
+
+SVD can be used to compute **PSEUDOINVERSE** of M:
+
+    M^-1 = V * Sigma^-1 * U^T
+
+        Sigma^-1 is formed by replacing non-zero diagonal entries with its reciprocal and transposing the matrix
 
 
 
